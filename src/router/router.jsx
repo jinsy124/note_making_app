@@ -3,11 +3,18 @@ import NotesPage from "../page/NotesPage";
 import CreateNote from "../page/CreateNote";
 import UpdateNote from "../page/UpdateNote";
 import NotesById from "../page/NotesById";
+import SignUpPage from "../page/SignUpPage";
+import Home from "../page/Home";
+import LoginPage from "../page/LoginPage";
 
 
 const router = createBrowserRouter([
   {
     path: "/",
+    element: <Home />
+  },
+  {
+    path: "/notes",
     element: <NotesPage />
   },
   {
@@ -21,7 +28,16 @@ const router = createBrowserRouter([
   {
     path:"/notes/:id",
     element: <NotesById />
-  }
+  },
+  {
+    path:"/signup",
+    element: <SignUpPage />
+  },
+  {
+    path:"/login",
+    element: <LoginPage />
+  },
+  
   
 ]);
 

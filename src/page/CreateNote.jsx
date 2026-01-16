@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import api from "../api";
 
@@ -11,21 +11,33 @@ const CreateNote = () => {
     e.preventDefault();
 
     try {
-      await api.post("/", {
+      const token = localStorage.getItem('token');
+      await api.post("/note/", {
         title,
         content
+      },{
+        headers:{
+          Authorization: `Bearer ${token}`,
+        },
       });
 
-      navigate("/"); // go back to notes list
+      navigate("/notes"); // go back to notes list
     } catch (error) {
       console.error("Error creating note", error);
     }
   };
+  useEffect (() =>{
+    if(!localStorage.getItem('token')) {
+      navigate('/login')
+      alert("please login");
+    }
+    handleSubmit();
+  },[])
 
   return (
     <div className="bg-gray-100 min-h-screen p-6 flex flex-col items-center ">
       <h2 className="font-bold text-3xl text-gray-800 mb-4">Create Note</h2>
-      <Link to="/" className="text-blue-600 hover:underline mb-6 self-start">
+      <Link to="/notes" className="text-blue-400 hover:underline mb-6 self-start">
       &larr; Back</Link>
 
       <form onSubmit={handleSubmit}

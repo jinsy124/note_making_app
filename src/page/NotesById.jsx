@@ -10,7 +10,13 @@ const NotesById = () => {
 
     const fetchNotes =async () => {
         try {
-            const response = await api.get(`/${id}`);
+            const token = localStorage.getItem('token');
+
+            const response = await api.get(`/note/${id}`,{
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
             setNote(response.data);
             
         } catch (error) {
