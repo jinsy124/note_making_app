@@ -1,10 +1,10 @@
 import { useState } from "react"
 import api from "../api"
 import { useNavigate } from "react-router-dom";
-import Navbar from "../components/Navbar";
+
 
 const SignUpPage =() => {
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
     const[formData ,setFormData] = useState({
         "username":"",
@@ -45,9 +45,7 @@ const SignUpPage =() => {
 
             });
             setSuccess("Account created successfully");
-            setTimeout(() => {
-                setSuccess("")
-            },3000);
+            
             setFormData({
                 "username":"",
                 "email":"",
@@ -55,7 +53,10 @@ const SignUpPage =() => {
                 "first_name":"",
                 "last_name":"",
             });
-            navigate('/')
+            setTimeout(() => {
+                navigate('/login')
+            },3000);
+            
 
         }catch (error) {
             if(error.response?.status === 422) {

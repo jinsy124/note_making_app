@@ -10,13 +10,7 @@ const NotesById = () => {
 
     const fetchNotes =async () => {
         try {
-            const token = localStorage.getItem('token');
-
-            const response = await api.get(`/note/${id}`,{
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
+            const response = await api.get(`/note/${id}`);
             setNote(response.data);
             
         } catch (error) {
@@ -41,7 +35,7 @@ const NotesById = () => {
         <div className="bg-gray-100 min-h-screen p-4 ">
             
             <h1 className="text-3xl text-center font-serif mb-4 flex flex-col ">Note Details</h1>
-            <Link to ="/" className="text-blue-500 hover:underline font-serif text-lg pt-4 mb-5">&larr; Go Back</Link>
+            <Link to ="/notes" className="text-blue-500 hover:underline font-serif text-lg pt-4 mb-5">&larr; Go Back</Link>
             <div className="bg-white p-6 rounded-lg shadow-md max-w-3xl mx-auto  mt-4">
                 <h2 className="text-2xl font-serif mb-4">{note.title}</h2>
                 <p className="text-gray-700 mb-4 font-serif">{note.content}</p>

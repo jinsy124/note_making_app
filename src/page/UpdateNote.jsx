@@ -7,17 +7,14 @@ const UpdateNote = () => {
     const {id} =useParams();
     const [title,setTitle] = useState(" ");
     const [content,setContent] = useState(" ");
-
+    
+    
     const navigate = useNavigate();
 
     const fetchNote = async (e) => {
        try{
-        const token = localStorage.getItem('token');
-        const response = await api.get(`/note/${id}`,{
-            headers:{
-                Authorization: `Bearer ${token}`,
-            },
-        });
+        
+        const response = await api.get(`/note/${id}`);
         setTitle(response.data.title);
         setContent(response.data.content);
        } catch (error ) {
@@ -31,12 +28,9 @@ const UpdateNote = () => {
     const handleUpdate = async (e) => {
         e.preventDefault();
         try {
-            const token = localStorage.getItem('token');
-            await api.patch(`/note/${id}`,{title,content},{
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
+            
+            await api.patch(`/note/${id}`,{title,content});
+            
             navigate("/notes");
         } catch (error) {
             console.error("Error updating note",error)

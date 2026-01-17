@@ -6,39 +6,52 @@ import NotesById from "../page/NotesById";
 import SignUpPage from "../page/SignUpPage";
 import Home from "../page/Home";
 import LoginPage from "../page/LoginPage";
-
+import { AuthProvider } from "../AuthContext";
+import ProtectedRoute from "../components/ProtectedRoute";
 
 const router = createBrowserRouter([
   {
-    path: "/",
-    element: <Home />
+    element: <AuthProvider />,   // ✅ Provider here
+    children: [
+      { path: "/", element: <Home /> },
+
+      {
+        path: "/notes",
+        element: (
+          <ProtectedRoute>
+            <NotesPage />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/create",
+        element: (
+          <ProtectedRoute>
+            <CreateNote />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/update/:id",
+        element: (
+          <ProtectedRoute>
+            <UpdateNote />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/notes/:id",
+        element: (
+          <ProtectedRoute>
+            <NotesById />
+          </ProtectedRoute>
+        ),
+      },
+
+      { path: "/signup", element: <SignUpPage /> },
+      { path: "/login", element: <LoginPage /> },
+    ],
   },
-  {
-    path: "/notes",
-    element: <NotesPage />
-  },
-  {
-    path: "/create",
-    element: <CreateNote />
-  },
-  {
-    path: "/update/:id",
-    element: <UpdateNote />
-  },
-  {
-    path:"/notes/:id",
-    element: <NotesById />
-  },
-  {
-    path:"/signup",
-    element: <SignUpPage />
-  },
-  {
-    path:"/login",
-    element: <LoginPage />
-  },
-  
-  
 ]);
 
 export default router;

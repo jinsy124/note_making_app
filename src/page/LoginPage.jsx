@@ -1,56 +1,26 @@
-import { useState } from "react"
+import { useContext, useState } from "react"
 import { useNavigate } from "react-router-dom";
 import api from "../api";
-
+import AuthContext from "../AuthContext";
 
 const LoginPage = () => {
+    const { loginUser } = useContext(AuthContext);
 
     const [email,setEmail] = useState('');
     const [password,setPassword] = useState('');
-    const [loading,setLoading] = useState(false);
     const [error,setError] = useState('');
     
-
-    const navigate = useNavigate( );
-    const validateForm  = ( ) => {
-        if (!email || !password ) {
-            setError("username and password are required");
-            return false;
-        }
-        setError(" ");
-        return true;
-    };
     const handleSubmit = async(e ) =>{
         e.preventDefault();
-        if (!validateForm() )return;
-        setLoading(true);
-
+          if (!email || !password ) {
+            setError("username and password are required");
+            return ;
+        }
+        setError(" ");
+        loginUser(email,password,setError);
         
-        try {
-            const response = await api.post('/auth/login',{
-                email:email,
-                password:password
-            });
-            setLoading(false);
-            
-            localStorage.setItem('token',response.data.access_token);
-            console.log('token')
-            navigate('/notes')
-           
-
-            
-        }catch (error) {
-            if(error.response?.status === 422) {
-                const errors = error.response.data.detail;
-                const firstError = errors[0];
-                setError(`${firstError.loc[1]}:${firstError.msg}`)
-            } else if (error.response?.data?.message) {
-                setError(error.response.data.message);
-            }else{
-                setError("Something went wrong please try again!!")
-            }
         }    
-    };
+    
     return(
         
         <div className="min-h-screen bg-slate-300  ">
@@ -84,10 +54,17 @@ const LoginPage = () => {
                     </button>
                     {error && <p style={{color:'red'}}> {error}</p>}
                 </div>
+                <div>
+                   <Link
+                        to="/signup"
+                        className="text-white underline mb-6">
+                        Create account
+                    </Link>
+                </div>
                 
             </form>
         </div>
     ); 
 
-}
+};
 export default LoginPage;

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import api from "../api";
 
@@ -11,14 +11,10 @@ const CreateNote = () => {
     e.preventDefault();
 
     try {
-      const token = localStorage.getItem('token');
+      
       await api.post("/note/", {
         title,
         content
-      },{
-        headers:{
-          Authorization: `Bearer ${token}`,
-        },
       });
 
       navigate("/notes"); // go back to notes list
@@ -26,13 +22,7 @@ const CreateNote = () => {
       console.error("Error creating note", error);
     }
   };
-  useEffect (() =>{
-    if(!localStorage.getItem('token')) {
-      navigate('/login')
-      alert("please login");
-    }
-    handleSubmit();
-  },[])
+  
 
   return (
     <div className="bg-gray-100 min-h-screen p-6 flex flex-col items-center ">
