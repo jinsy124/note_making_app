@@ -1,3 +1,4 @@
+// router/router.jsx
 import { createBrowserRouter } from "react-router-dom";
 import NotesPage from "../page/NotesPage";
 import CreateNote from "../page/CreateNote";
@@ -6,15 +7,15 @@ import NotesById from "../page/NotesById";
 import SignUpPage from "../page/SignUpPage";
 import Home from "../page/Home";
 import LoginPage from "../page/LoginPage";
-import { AuthProvider } from "../AuthContext";
 import ProtectedRoute from "../components/ProtectedRoute";
+import { AuthProvider } from "../AuthContext";
+import RootLayout from "../components/RootLayout"; // Create this component
 
 const router = createBrowserRouter([
   {
-    element: <AuthProvider />,   // ✅ Provider here
+    element: <RootLayout />, // Wrapper component
     children: [
       { path: "/", element: <Home /> },
-
       {
         path: "/notes",
         element: (
@@ -47,7 +48,6 @@ const router = createBrowserRouter([
           </ProtectedRoute>
         ),
       },
-
       { path: "/signup", element: <SignUpPage /> },
       { path: "/login", element: <LoginPage /> },
     ],
